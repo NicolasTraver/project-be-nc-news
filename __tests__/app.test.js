@@ -26,3 +26,18 @@ describe("GET /api", () => {
       });
   });
 });
+
+describe("GET/api/topics", () => {
+  test("200: should respond with an array of properties each of which should have the following properties: slug and descripion", () => {
+    return request(app)
+      .get("/api/topics")
+      .expect(200)
+      .then(({ body: { topics } }) => {
+        expect(Array.isArray(topics)).toBe(true);
+        topics.forEach((topic) => {
+          expect(topic).toHaveProperty("slug");
+          expect(topic).toHaveProperty("description");
+        });
+      });
+  });
+});
