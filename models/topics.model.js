@@ -1,4 +1,3 @@
-const { getTopics } = require("../controllers/topics.controllers");
 const topicsRouter = require("express");
 const db = require("../db/connection");
 
@@ -10,5 +9,3 @@ exports.fetchTopics = async () => {
     throw new Error("Unable to fetch topics");
   }
 };
-
-//"SELECT slug, description FROM topics;"
