@@ -1,7 +1,11 @@
 const express = require("express");
-const { getTopics } = require("../controllers/topics.controllers");
-const endpoints = require("../endpoints.json");
-const { getArticleById } = require("../controllers/articles.controller");
+const { getTopics } = require("./controllers/topics.controllers");
+const endpoints = require("./endpoints.json");
+
+const {
+  getArticleById,
+  getArticles,
+} = require("./controllers/articles.controller");
 
 const app = express();
 
@@ -10,18 +14,10 @@ app.get("/api", (req, res) => {
 });
 app.get("/api/topics", getTopics);
 
-app.get(
-  "/api/articles/:article_id",
-  (req, res, next) => {
-    const { article_id } = req.params;
-    if (isNaN(Number(article_id))) {
-      return res.status(400).send({ msg: "Invalid ArticleID" });
-    }
-    next();
-  },
-  getArticleById
-);
-//
+app.get("/api/articles/:article_id", getArticleById);
+
+app.get("/api/articles", getArticles);
+
 app.use((err, req, res, next) => {
   if (err.status) {
     res.status(err.status).send({ msg: err.msg });

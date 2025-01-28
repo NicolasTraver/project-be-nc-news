@@ -4,9 +4,11 @@
   "description": "bc-nc-news",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "setup-dbs": "psql -f ./db/setup.sql",
-    "seed": "NODE_ENV=development node ./db/seeds/run-seed.js",
-    "test": "NODE_ENV=test jest",
+    "seed": "node ./db/seeds/run-seed.js",
+    "test": "jest",
     "prepare": "husky install"
   },
   "repository": {
@@ -24,6 +26,7 @@
     "husky": "^8.0.2",
     "jest": "^27.5.1",
     "jest-extended": "^2.0.0",
+    "jest-sorted": "^1.0.15",
     "pg-format": "^1.0.4",
     "supertest": "^7.0.0"
   },
@@ -33,7 +36,8 @@
   },
   "jest": {
     "setupFilesAfterEnv": [
-      "jest-extended/all"
+      "jest-extended/all",
+      "jest-sorted"
     ]
   }
 }
