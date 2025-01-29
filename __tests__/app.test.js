@@ -75,7 +75,7 @@ describe("GET /api/articles/:article_id", () => {
 });
 
 describe("GET /api/articles", () => {
-  test.only("Responds to an array of articles in a sort_by_date descending order", async () => {
+  test("Responds to an array of articles in a sort_by_date descending order", async () => {
     const { body } = await request(app).get("/api/articles").expect(200);
     expect(body.articles).toBeInstanceOf(Array);
     //expect(body.articles).toHaveLength();//Adjust length
@@ -104,17 +104,25 @@ describe("GET /api/articles", () => {
     });
   });
 });
-describe("GET /api/articles", () => {
-  test("Responds with an array of articles sorted by date in descending order", async () => {
-    const { body } = await request(app).get("/api/articles").expect(200);
-    expect(body.articles).toBeInstanceOf(Array);
-    expect(body.articles).toBeSortedBy("created_at", { descending: true });
-  });
 
-  test("Each article object should not have a 'body' property", async () => {
-    const { body } = await request(app).get("/api/articles").expect(200);
-    body.articles.forEach((article) => {
-      expect(article).not.toHaveProperty("body");
+describe("GET /api/articles/:article_id/comments", () => {
+  test("200: an array of comments for the given article_id of which each comment", async () => {
+    const response = await request(app)
+      .get("/api/articles/1/comments")
+      .expect(200);
+    const { body } = response;
+    expect(body.comments).toBeInstanceOf(Array);
+    body.comments.forEach((comment) => {
+      expect(comment).toEqual(
+        expect.objectContaining({
+          comment_id: expect.any(Number),
+          votes: expect.any(Number),
+          created_at: expect.any(String),
+          author: expect.any(String),
+          body: expect.any(String),
+          article_id: 1,
+        })
+      );
     });
   });
 });
