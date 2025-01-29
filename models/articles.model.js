@@ -12,7 +12,6 @@ exports.fetchArticleById = async (article_id) => {
   }
   return rows[0];
 };
-//Left JOin check
 
 exports.fetchArticles = async (req, res, next) => {
   const queryStr = `SELECT articles.author, articles.title, articles.article_id, articles.topic,
@@ -23,4 +22,13 @@ exports.fetchArticles = async (req, res, next) => {
 
   const result = await db.query(queryStr);
   return result.rows;
+};
+
+exports.fetchArticleComment = async (article_id) => {
+  //req, res, next
+  //const { article_id } = req.params; //extract
+  const queryS = `SELECT comment_id, votes, created_at, author, body, article_id FROM comments WHERE article_id = $1 ORDER BY created_at DESC; `;
+
+  const { rows } = await db.query(queryS, [article_id]);
+  return rows;
 };
